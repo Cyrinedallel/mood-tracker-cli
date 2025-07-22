@@ -1,5 +1,6 @@
 import json
 from datetime import datetime
+from collections import Counter
 
 FILENAME = "mood_data.json"
 
@@ -30,17 +31,34 @@ def show_history():
     print("\nMood History:")
     for date, mood in sorted(data.items()):
         print(f"{date}: {mood}")
+def show_stats():
+    data = load_data()
+    if not data:
+        print("No mood data available to analyze.")
+        return
 
+    mood_counts = Counter(data.values())
+    print("\nMood Statistics:")
+    for mood, count in mood_counts.items():
+        print(f"{mood}: {count}")
 def main():
     print("Mood Tracker")
     while True:
-        print("\nOptions:\n1. Add mood\n2. View history\n3. Quit")
+        print("\nOptions:")
+        print("1. Add mood")
+        print("2. View history")
+        print("3. View mood stats")
+        print("4. Quit")
+
         choice = input("Choose an option: ")
+
         if choice == "1":
             add_mood()
         elif choice == "2":
             show_history()
         elif choice == "3":
+            show_stats()
+        elif choice == "4":
             break
         else:
             print("Invalid option.")
